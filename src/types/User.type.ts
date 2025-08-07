@@ -1,3 +1,5 @@
+import { PartialBy } from "./common";
+
 export enum UserRoles {
   SupAdmin = "SUPER_ADMIN",
   Admin = "ADMIN",
@@ -11,6 +13,8 @@ export type UserType = {
   email: string;
   password: string;
 };
+
+export type UserResponseType = PartialBy<UserType, "password">;
 
 export type UserRegisterPayloadType = Omit<UserType, "role">;
 

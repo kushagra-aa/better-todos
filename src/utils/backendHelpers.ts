@@ -1,4 +1,4 @@
-import { PartialBy } from "@/types/helpertypes";
+import { PartialBy } from "@/types/common";
 import { ErrorResponseType, SuccessResponseType } from "@/types/Response.type";
 import { NextResponse } from "next/server";
 

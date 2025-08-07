@@ -1,13 +1,13 @@
-import { validateRegisterPayload } from "@/utils/validators/userPayloadValidators";
+import { validateLoginPayload } from "@/utils/validators/userPayloadValidators";
 import { sendAPIError, sendAPIResponse } from "@/utils/backendHelpers";
-import { addUsers, getUserByEmail } from "@/services/user.service";
-import { UserRoles } from "@/types/User.type";
+import { getUserForLogin } from "@/services/user.service";
 import bcrypt from "bcrypt";
+import { createUserSession } from "@/lib/session";
 
 export async function POST(request: Request) {
   try {
     const payload = await request.json();
-    const validation = validateRegisterPayload(payload);
+    const validation = validateLoginPayload(payload);
     if (!validation.success)
       return sendAPIError({
         error: "Validation Error",
@@ -16,22 +16,26 @@ export async function POST(request: Request) {
         errors: validation.errors,
       });
     const validatedUser = validation.data;
-    const hashedPassword = await bcrypt.hash(validatedUser.password, 10);
-    const isEmailUsed = await getUserByEmail(validatedUser.email);
-    if (isEmailUsed)
+    const user = await getUserForLogin(validatedUser.email);
+    if (!user)
       return sendAPIError({
-        error: "Validation Error",
+        error: "Invalid User Credentials",
         message: "Invalid Input",
         status: 400,
-        errors: [{ email: "Email is being used by another account" }],
       });
-    const newUser = await addUsers({
-      ...validatedUser,
-      password: hashedPassword,
-      role: UserRoles.Employ,
-    });
+    const isPasswordCorrect = await bcrypt.compare(
+      validatedUser.password,
+      user.password
+    );
+    if (!isPasswordCorrect)
+      return sendAPIError({
+        error: "Invalid User Credentials",
+        message: "Invalid Input",
+        status: 400,
+      });
+    await createUserSession(user.email);
     return sendAPIResponse({
-      data: newUser,
+      data: user,
       count: 1,
       page: 1,
       pageSize: 10,

@@ -1,9 +1,12 @@
-import { UserRegisterPayloadType } from "@/types/User.type";
+import {
+  UserLoginPayloadType,
+  UserRegisterPayloadType,
+} from "@/types/User.type";
 
-type ValidationResultType =
+type ValidationResultType<T> =
   | {
       success: true;
-      data: UserRegisterPayloadType;
+      data: T;
     }
   | {
       success: false;
@@ -12,7 +15,7 @@ type ValidationResultType =
 
 export const validateRegisterPayload = (
   payload: Partial<UserRegisterPayloadType>
-): ValidationResultType => {
+): ValidationResultType<UserRegisterPayloadType> => {
   const errors: Record<string, string>[] = [];
 
   // ? Validate name
@@ -69,6 +72,44 @@ export const validateRegisterPayload = (
     data: {
       name: payload.name!.trim(),
       username: payload.username!.trim(),
+      email: payload.email!.trim().toLowerCase(),
+      password: payload.password!.trim(),
+    },
+  };
+};
+
+export const validateLoginPayload = (
+  payload: Partial<UserLoginPayloadType>
+): ValidationResultType<UserLoginPayloadType> => {
+  const errors: Record<string, string>[] = [];
+
+  // ? Validate email
+  if (!payload.email?.trim()) {
+    errors.push({ email: "Email is a required field" });
+  } else {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(payload.email.trim())) {
+      errors.push({ email: "Please enter a valid email address" });
+    }
+  }
+
+  // ? Validate password
+  if (!payload.password?.trim()) {
+    errors.push({ password: "Password is a required field" });
+  }
+
+  // ? If there are errors, return them
+  if (Object.keys(errors).length > 0) {
+    return {
+      success: false,
+      errors,
+    };
+  }
+
+  // ? Return validated data
+  return {
+    success: true,
+    data: {
       email: payload.email!.trim().toLowerCase(),
       password: payload.password!.trim(),
     },

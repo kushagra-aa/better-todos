@@ -1,1 +1,9 @@
-[{"email":"admin@betterTodo.com","name":"Kushagra","password":"","role":"SUPER_ADMIN","username":"sup_kushagra"},{"name":"Hello3","username":"helo","email":"email@cc.com","password":"!K23dss4","role":"EMPLOY"},{"name":"Hello3","username":"helo","email":"email@cc.com","password":"!K23dss4","role":"EMPLOY"}]
+[
+    {
+        "email": "admin@betterTodo.com",
+        "name": "Kushagra",
+        "password": "$2b$10$OurVCSUEa/IWFZT6YU0ZQ.DXjYHJfra7eFljdp.AuW1rFYdsftQGa",
+        "role": "SUPER_ADMIN",
+        "username": "sup_kushagra"
+    }
+]
