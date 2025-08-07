@@ -3,8 +3,9 @@ import { sendAPIError, sendAPIResponse } from "@/utils/backendHelpers";
 import { getUserForLogin } from "@/services/user.service";
 import bcrypt from "bcrypt";
 import { createUserSession } from "@/lib/session";
+import { NextRequest } from "next/server";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     const payload = await request.json();
     const validation = validateLoginPayload(payload);
@@ -39,8 +40,8 @@ export async function POST(request: Request) {
       count: 1,
       page: 1,
       pageSize: 10,
-      message: "User Successfully Added",
-      status: 201,
+      message: "User Logged In Successfully",
+      status: 200,
     });
   } catch (e) {
     const castedError = e as { message: string };

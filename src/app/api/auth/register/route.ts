@@ -3,8 +3,9 @@ import { sendAPIError, sendAPIResponse } from "@/utils/backendHelpers";
 import { addUsers, getUserByEmail } from "@/services/user.service";
 import { UserRoles } from "@/types/User.type";
 import bcrypt from "bcrypt";
+import { NextRequest } from "next/server";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     const payload = await request.json();
     const validation = validateRegisterPayload(payload);

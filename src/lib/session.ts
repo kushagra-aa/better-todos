@@ -24,8 +24,9 @@ export async function createUserSession(email: string) {
 export async function checkUserSession() {
   const cookieStore = await cookies();
   const session = cookieStore.get(SESSION_COOKIE_NAME)?.value;
+  if (!session) return;
   const user = await decrypt(session, encodedKey);
-  return user;
+  return user as { email: string };
 }
 export async function deleteUserSession() {
   const cookieStore = await cookies();

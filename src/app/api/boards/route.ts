@@ -1,8 +1,8 @@
-import { checkUserSession } from "@/lib/session";
 import { sendAPIResponse } from "@/utils/backendHelpers";
+import { NextRequest } from "next/server";
 
-export async function GET() {
-  const user = await checkUserSession();
+export async function GET(request: NextRequest) {
+  const user = request.headers.get("x-user-email");
   return sendAPIResponse({
     data: user,
     count: 1,
