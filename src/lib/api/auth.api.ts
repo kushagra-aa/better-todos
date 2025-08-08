@@ -1,5 +1,5 @@
 import { ErrorResponseType, SuccessResponseType } from "@/types/Response.type";
-import { makeAPIPostCall } from "@/lib/api";
+import { makeAPIPostCall, objectToFormData } from "@/lib/api";
 
 export const loginUser = async (
   formData: FormData
@@ -38,6 +38,37 @@ export const registerUser = async (
 ): Promise<SuccessResponseType | ErrorResponseType> => {
   try {
     const res = await makeAPIPostCall("/api/auth/register", formData);
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      return {
+        status: res.status,
+        message: data.message || "Registration failed",
+        error: data.error || "Unknown error",
+        errors: data.errors,
+      };
+    }
+
+    return {
+      status: res.status,
+      message: data.message || "Registration successful",
+      data: data.data,
+    };
+  } catch (err: unknown) {
+    console.error(err);
+    const error = err as { message: string };
+    return {
+      status: 500,
+      message: "Network Error",
+      error: error.message || "An unexpected error occurred",
+    };
+  }
+};
+
+export const logout = async () => {
+  try {
+    const res = await makeAPIPostCall("/api/auth/logout", objectToFormData({}));
 
     const data = await res.json();
 

@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { loginUser, registerUser } from "@/lib/api/auth.api";
+import { loginUser, logout, registerUser } from "@/lib/api/auth.api";
 import { ErrorResponseType } from "@/types/Response.type";
 
 export type FormState = {
@@ -32,6 +32,29 @@ export const handleRegister = async (
   formData: FormData
 ): Promise<FormState> => {
   const result = await registerUser(formData);
+
+  if ("error" in result) {
+    const errorResult = result as ErrorResponseType;
+
+    const fieldErrors: Record<string, string> = {};
+    if (errorResult.errors) {
+      errorResult.errors.forEach((err) => {
+        const [key, value] = Object.entries(err)[0];
+        fieldErrors[key] = value;
+      });
+    }
+
+    return {
+      globalError: errorResult.error || "An unexpected error occurred.",
+      fieldErrors: fieldErrors,
+    };
+  }
+
+  redirect("/login");
+};
+
+export const handleLogout = async () => {
+  const result = await logout();
 
   if ("error" in result) {
     const errorResult = result as ErrorResponseType;
