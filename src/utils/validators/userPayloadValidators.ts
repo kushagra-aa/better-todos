@@ -1,17 +1,8 @@
+import { ValidationResultType } from "@/types/common";
 import {
   UserLoginPayloadType,
   UserRegisterPayloadType,
-} from "@/types/User.type";
-
-type ValidationResultType<T> =
-  | {
-      success: true;
-      data: T;
-    }
-  | {
-      success: false;
-      errors: Record<string, string>[];
-    };
+} from "@/types/entities/User.type";
 
 export const validateRegisterPayload = (
   payload: Partial<UserRegisterPayloadType>

@@ -1,7 +1,7 @@
 import { validateRegisterPayload } from "@/utils/validators/userPayloadValidators";
 import { sendAPIError, sendAPIResponse } from "@/utils/backendHelpers";
-import { addUsers, getUserByEmail } from "@/services/user.service";
-import { UserRoles } from "@/types/User.type";
+import { addUser, getUserByEmail } from "@/services/user.service";
+import { UserRoles } from "@/types/entities/User.type";
 import bcrypt from "bcrypt";
 import { NextRequest } from "next/server";
 
@@ -26,16 +26,13 @@ export async function POST(request: NextRequest) {
         status: 400,
         errors: [{ email: "Email is being used by another account" }],
       });
-    const newUser = await addUsers({
+    const newUser = await addUser({
       ...validatedUser,
       password: hashedPassword,
       role: UserRoles.Employ,
     });
     return sendAPIResponse({
       data: newUser,
-      count: 1,
-      page: 1,
-      pageSize: 10,
       message: "User Successfully Added",
       status: 201,
     });

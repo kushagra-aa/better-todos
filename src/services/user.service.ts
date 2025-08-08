@@ -1,4 +1,4 @@
-import { UserResponseType, UserType } from "@/types/User.type";
+import { UserResponseType, UserType } from "@/types/entities/User.type";
 import fs from "fs/promises";
 
 const userDBPath = "database/users.json";
@@ -12,7 +12,7 @@ export const getUsers = async (): Promise<UserResponseType[]> => {
   return users;
 };
 
-export const addUsers = async (user: UserType) => {
+export const addUser = async (user: UserType) => {
   const USERS = await getUsers();
   USERS.push(user);
   await fs.writeFile(userDBPath, JSON.stringify(USERS), { encoding: "utf8" });

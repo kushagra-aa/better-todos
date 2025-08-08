@@ -10,7 +10,7 @@ export type ErrorResponseType = {
 
 export type SuccessResponseType = {
   data: unknown;
-  count: number;
-  page: number;
-  pageSize: number;
+  count?: number;
+  page?: number;
+  pageSize?: number;
 } & BaseResponseType;
