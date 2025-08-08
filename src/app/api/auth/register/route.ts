@@ -4,6 +4,7 @@ import { addUser, getUserByEmail } from "@/services/user.service";
 import { UserRoles } from "@/types/entities/User.type";
 import bcrypt from "bcrypt";
 import { NextRequest } from "next/server";
+import { createUserSession } from "@/lib/session";
 
 export async function POST(request: NextRequest) {
   try {
@@ -31,6 +32,7 @@ export async function POST(request: NextRequest) {
       password: hashedPassword,
       role: UserRoles.Employ,
     });
+    await createUserSession(newUser.email);
     return sendAPIResponse({
       data: newUser,
       message: "User Successfully Added",
