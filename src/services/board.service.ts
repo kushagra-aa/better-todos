@@ -1,10 +1,12 @@
 import {
   BoardAddPayloadType,
   BoardEditPayloadType,
+  BoardResponseType,
   BoardType,
 } from "@/types/entities/Board.type";
 import { generateBase36NumericId } from "@/utils/generateID";
 import fs from "fs/promises";
+import { getBoardTasks } from "./task.service";
 
 const boardDBPath = "database/boards.json";
 
@@ -16,14 +18,25 @@ export const getAllBoards = async (): Promise<BoardType[]> => {
     .then((b) => boards.push(...b));
   return boards;
 };
-export const getUserBoards = async (email?: string): Promise<BoardType[]> => {
+
+const getBoardsTasksCount = async (id: number, email: string) =>
+  getBoardTasks(id, email).then((t) => t.length || 0);
+
+export const getUserBoards = async (
+  email?: string
+): Promise<BoardResponseType[]> => {
   if (!email) return [];
   const boards: BoardType[] = [];
   await fs
     .readFile(boardDBPath, "utf8")
     .then((b) => JSON.parse(b) as BoardType[])
     .then((b) => boards.push(...b.filter((u) => u.owner === email)));
-  return boards;
+  const boardsResponse: BoardResponseType[] = [];
+  for (const b of boards) {
+    const tasks = await getBoardsTasksCount(b.id, b.owner);
+    boardsResponse.push({ ...b, tasksCount: tasks });
+  }
+  return boardsResponse;
 };
 
 export const getBoardByID = async (

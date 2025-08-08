@@ -3,7 +3,7 @@
 import Link from "next/link";
 import AuthFormWrapper from "@/components/auth/AuthFormWrapper";
 import { FormState, handleRegister } from "@/lib/actions/auth";
-import InputField from "@/components/form/Input";
+import InputField from "@/components/form/InputField";
 import SubmitButton from "@/components/form/SubmitButton";
 import { useActionState, useRef } from "react";
 
@@ -63,7 +63,7 @@ export default function RegisterPage() {
         autoComplete="new-password"
       />
       <div className="flex items-center justify-between mt-6">
-        <SubmitButton text="Register" loadingText="Registering..." />
+        <SubmitButton text="Register" />
         <Link
           href="/login"
           className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"

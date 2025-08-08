@@ -6,6 +6,7 @@ export type BaseResponseType = {
 export type ErrorResponseType = {
   errors?: Record<string, string>[];
   error: string;
+  data?: undefined;
 } & BaseResponseType;
 
 export type SuccessResponseType = {
@@ -13,4 +14,5 @@ export type SuccessResponseType = {
   count?: number;
   page?: number;
   pageSize?: number;
+  error?: undefined;
 } & BaseResponseType;

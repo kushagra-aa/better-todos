@@ -7,6 +7,8 @@ export type BoardType = {
   updatedAt: string;
 };
 
+export type BoardResponseType = { tasksCount: number } & BoardType;
+
 export type BoardAddPayloadType = Omit<
   BoardType,
   "id" | "createdAt" | "updatedAt"

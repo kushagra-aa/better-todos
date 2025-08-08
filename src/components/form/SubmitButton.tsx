@@ -1,16 +1,18 @@
 "use client";
 
+import { ReactNode } from "react";
 import { useFormStatus } from "react-dom";
+import Loader from "@/components/ui/Loader";
 
 interface SubmitButtonPropsType {
   text: string;
-  loadingText?: string;
+  loadingText?: ReactNode;
   className?: string;
 }
 
 const SubmitButton: React.FC<SubmitButtonPropsType> = ({
   text,
-  loadingText = "Submitting...",
+  loadingText = <Loader size="xs" />,
   className,
 }) => {
   const { pending } = useFormStatus();

@@ -1,11 +1,11 @@
 "use client";
 
 import AuthFormWrapper from "@/components/auth/AuthFormWrapper";
+import InputField from "@/components/form/InputField";
 import SubmitButton from "@/components/form/SubmitButton";
-import Link from "next/link";
 import { handleLogin } from "@/lib/actions/auth";
-import InputField from "@/components/form/Input";
-import { useRef, useActionState } from "react";
+import Link from "next/link";
+import { useActionState, useRef } from "react";
 
 export default function LoginPage() {
   const [state, formAction] = useActionState(handleLogin, {});
@@ -39,7 +39,7 @@ export default function LoginPage() {
         autoComplete="current-password"
       />
       <div className="flex items-center justify-between mt-6">
-        <SubmitButton text="Login" loadingText="Logging in..." />
+        <SubmitButton text="Login" />
         <Link
           href="/register"
           className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"

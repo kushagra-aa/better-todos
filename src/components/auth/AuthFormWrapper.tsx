@@ -2,7 +2,7 @@
 
 import { FormState } from "@/lib/actions/auth";
 import { ReactNode, RefObject } from "react";
-import FormError from "../form/FormError";
+import FormError from "@/components/form/FormError";
 
 interface AuthFormWrapperProps {
   action: (prevState: FormState, formData: FormData) => Promise<FormState>;

@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { loginUser, registerUser } from "../api/auth";
+import { loginUser, registerUser } from "@/lib/api/auth.api";
 import { ErrorResponseType } from "@/types/Response.type";
 
 export type FormState = {

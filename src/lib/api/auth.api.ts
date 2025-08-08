@@ -1,11 +1,11 @@
 import { ErrorResponseType, SuccessResponseType } from "@/types/Response.type";
-import { makeAPICall } from "@/lib/api";
+import { makeAPIPostCall } from "@/lib/api";
 
 export const loginUser = async (
   formData: FormData
 ): Promise<SuccessResponseType | ErrorResponseType> => {
   try {
-    const res = await makeAPICall("/api/auth/login", formData);
+    const res = await makeAPIPostCall("/api/auth/login", formData);
 
     const data = await res.json();
 
@@ -37,7 +37,7 @@ export const registerUser = async (
   formData: FormData
 ): Promise<SuccessResponseType | ErrorResponseType> => {
   try {
-    const res = await makeAPICall("/api/auth/register", formData);
+    const res = await makeAPIPostCall("/api/auth/register", formData);
 
     const data = await res.json();
 
