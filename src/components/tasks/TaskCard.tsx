@@ -25,7 +25,7 @@ export default function TaskCard({
         <div className="flex items-center space-x-3 flex-1">
           <button
             onClick={onToggle}
-            className={`flex-shrink-0 transition-colors ${
+            className={`cursor-pointer flex-shrink-0 transition-colors ${
               task.status === TaskStatusEnum.Complete
                 ? "text-green-600 hover:text-green-700"
                 : "text-gray-400 hover:text-gray-600"
@@ -56,7 +56,7 @@ export default function TaskCard({
           variant="ghost"
           size="sm"
           onClick={onDelete}
-          className="text-red-500 hover:text-red-700 hover:bg-red-50 ml-2"
+          className="cursor-pointer text-red-500 hover:text-red-700 hover:bg-red-50 ml-2"
         >
           <Trash2 className="w-4 h-4" />
         </Button>

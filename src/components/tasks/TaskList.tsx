@@ -7,7 +7,7 @@ import TaskCard from "./TaskCard";
 
 type TaskListPropsType = {
   tasks: TaskType[];
-  onToggle: (id: number) => void;
+  onToggle: (id: number, status: TaskStatusEnum) => void;
   onDelete: (id: number) => void;
   loading?: boolean;
 };
@@ -73,7 +73,7 @@ export default function TaskList({
       {/* Pending Tasks */}
       {pendingTasks.length > 0 && (
         <div>
-          <h3 className="text-lg font-medium text-gray-900 mb-3">
+          <h3 className="text-lg font-medium text-gray-300 mb-3">
             Pending Tasks ({pendingTasks.length})
           </h3>
           <div className="space-y-3">
@@ -81,7 +81,14 @@ export default function TaskList({
               <TaskCard
                 key={task.id}
                 task={task}
-                onToggle={() => onToggle(task.id)}
+                onToggle={() =>
+                  onToggle(
+                    task.id,
+                    task.status === TaskStatusEnum.Complete
+                      ? TaskStatusEnum.Pending
+                      : TaskStatusEnum.Complete
+                  )
+                }
                 onDelete={() => onDelete(task.id)}
               />
             ))}
@@ -92,7 +99,7 @@ export default function TaskList({
       {/* Completed Tasks */}
       {completedTasks.length > 0 && (
         <div>
-          <h3 className="text-lg font-medium text-gray-900 mb-3">
+          <h3 className="text-lg font-medium text-gray-300 mb-3">
             Completed Tasks ({completedTasks.length})
           </h3>
           <div className="space-y-3">
@@ -100,7 +107,14 @@ export default function TaskList({
               <TaskCard
                 key={task.id}
                 task={task}
-                onToggle={() => onToggle(task.id)}
+                onToggle={() =>
+                  onToggle(
+                    task.id,
+                    task.status === TaskStatusEnum.Complete
+                      ? TaskStatusEnum.Pending
+                      : TaskStatusEnum.Complete
+                  )
+                }
                 onDelete={() => onDelete(task.id)}
               />
             ))}

@@ -7,10 +7,12 @@ export const getBaseUrl = () => {
   return process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 };
 
-export function objectToFormData(obj: Record<string, string>): FormData {
+export function objectToFormData(
+  obj: Record<string, string | number>
+): FormData {
   const formData = new FormData();
   Object.entries(obj).forEach(([key, value]) => {
-    formData.append(key, value);
+    formData.append(key, `${value}`);
   });
   return formData;
 }

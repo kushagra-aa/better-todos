@@ -7,7 +7,10 @@ import ToastList from "@/components/ui/Toast";
 import useQuery from "@/hooks/useQuery";
 import { useToast } from "@/hooks/useToast";
 import { deleteBoard, fetchBoards, addBoard } from "@/lib/api/boards.api";
-import { BoardResponseType } from "@/types/entities/Board.type";
+import {
+  BoardAddPayloadType,
+  BoardResponseType,
+} from "@/types/entities/Board.type";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -35,10 +38,7 @@ function BoardsPage() {
   const handleSwitchScreen = (screen: BoardScreensEnum) =>
     setCurrentScreen(screen);
 
-  const handleBoardAdd = async (data: {
-    name: string;
-    description: string;
-  }) => {
+  const handleBoardAdd = async (data: Omit<BoardAddPayloadType, "owner">) => {
     setIsLoading(true);
     try {
       const resp = await addBoard(data);
@@ -50,6 +50,7 @@ function BoardsPage() {
       getBoards();
     } catch {}
   };
+
   const handleBoardDelete = async (id: number) => {
     setIsLoading(true);
     try {
