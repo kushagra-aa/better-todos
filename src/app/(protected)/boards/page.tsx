@@ -4,6 +4,7 @@ import BoardForm from "@/components/boards/BoardForm";
 import BoardList from "@/components/boards/BoardList";
 import Button from "@/components/ui/Button";
 import ToastList from "@/components/ui/Toast";
+import useQuery from "@/hooks/useQuery";
 import { useToast } from "@/hooks/useToast";
 import { deleteBoard, fetchBoards, addBoard } from "@/lib/api/boards.api";
 import { BoardResponseType } from "@/types/entities/Board.type";
@@ -17,14 +18,19 @@ enum BoardScreensEnum {
 }
 
 function BoardsPage() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [boards, setBoards] = useState<BoardResponseType[]>([]);
-  const [error, setError] = useState<{ message: string } | null>(null);
-  const [currentScreen, setCurrentScreen] = useState(BoardScreensEnum.form);
+  const [currentScreen, setCurrentScreen] = useState(BoardScreensEnum.list);
 
   const router = useRouter();
 
   const { toasts, addToast } = useToast();
+  const {
+    isLoading,
+    setIsLoading,
+    data: boards,
+    setData: setBoards,
+    error,
+    setError,
+  } = useQuery<BoardResponseType[]>([]);
 
   const handleSwitchScreen = (screen: BoardScreensEnum) =>
     setCurrentScreen(screen);
