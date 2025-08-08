@@ -30,14 +30,14 @@ export async function PATCH(request: NextRequest, context: ContextType) {
       });
     const validatedBoard = validation.data;
     const board = await editBoard({ ...validatedBoard });
-    if (!board)
+    if (board.error)
       return sendAPIError({
-        error: `Bard not found`,
-        message: `Board with ID: ${id} not found`,
-        status: 404,
+        error: board.error.error,
+        message: board.error.message,
+        status: board.error.status,
       });
     return sendAPIResponse({
-      data: board,
+      data: board.data,
       message: "Board Successfully Edited",
       status: 200,
     });

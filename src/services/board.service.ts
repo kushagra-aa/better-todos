@@ -3,6 +3,7 @@ import {
   BoardEditPayloadType,
   BoardType,
 } from "@/types/entities/Board.type";
+import { generateBase36NumericId } from "@/utils/generateID";
 import fs from "fs/promises";
 
 const boardDBPath = "database/boards.json";
@@ -33,10 +34,13 @@ export const getBoardByID = async (
   return board;
 };
 
-const updateBoardsDB = async (board: BoardType[]) => {
+const addBoardsDB = async (board: BoardType[]) => {
   const BOARDS = await getAllBoards();
   BOARDS.push(...board);
   await fs.writeFile(boardDBPath, JSON.stringify(BOARDS), { encoding: "utf8" });
+};
+const updateBoardsDB = async (boards: BoardType[]) => {
+  await fs.writeFile(boardDBPath, JSON.stringify(boards), { encoding: "utf8" });
 };
 
 const removeBoardDB = async (board: number) => {
@@ -49,29 +53,46 @@ const removeBoardDB = async (board: number) => {
 };
 
 export const addBoard = async (board: BoardAddPayloadType) => {
-  const BOARDS = await getAllBoards();
   const now = new Date().toISOString();
   const newBoard = {
     ...board,
-    id: BOARDS.length + 1,
+    id: generateBase36NumericId(),
     createdAt: now,
     updatedAt: now,
   };
-  await updateBoardsDB([newBoard]);
+  await addBoardsDB([newBoard]);
   return await getBoardByID(newBoard.id);
 };
 
 export const editBoard = async (board: BoardEditPayloadType) => {
+  const BOARDS = await getAllBoards();
   const oldBoard = await getBoardByID(board.id);
-  if (!oldBoard) return null;
+  if (!oldBoard)
+    return {
+      error: {
+        error: "Board Not Found",
+        message: `Board with ID:${board.id} not found`,
+        status: 404,
+      },
+    };
+  if (oldBoard.owner !== board.owner)
+    return {
+      error: {
+        error: "Unauthorized",
+        message: `Unauthorized access to Board:${board.id}`,
+        status: 403,
+      },
+    };
   const now = new Date().toISOString();
   const newBoard = {
     ...oldBoard,
     ...board,
     updatedAt: now,
   };
-  await updateBoardsDB([newBoard]);
-  return newBoard;
+  await updateBoardsDB(
+    BOARDS.map((b) => (b.id === newBoard.id ? newBoard : b))
+  );
+  return { data: newBoard };
 };
 
 export const deleteBoard = async (id: number, email: string) => {

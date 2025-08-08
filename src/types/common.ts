@@ -15,4 +15,4 @@ export type ValidationResultType<T> =
       errors: Record<string, string>[];
     };
 
-export type ContextType = { params: Promise<{ id: string }> };
+export type ContextType = { params: Promise<{ id: string; task_id?: string }> };

@@ -12,3 +12,16 @@ export type TaskType = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type TaskAddPayloadType = Omit<
+  TaskType,
+  "id" | "createdAt" | "updatedAt" | "status"
+>;
+export type TaskEditPayloadType = Omit<
+  TaskType,
+  "createdAt" | "updatedAt" | "status"
+>;
+export type TaskStatusUpdatePayloadType = Pick<
+  TaskType,
+  "id" | "board" | "status" | "owner"
+>;
