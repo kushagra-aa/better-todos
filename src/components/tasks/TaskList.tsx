@@ -8,6 +8,7 @@ import TaskCard from "./TaskCard";
 type TaskListPropsType = {
   tasks: TaskType[];
   onToggle: (id: number, status: TaskStatusEnum) => void;
+  onClickAdd: () => void;
   onDelete: (id: number) => void;
   loading?: boolean;
 };
@@ -15,6 +16,7 @@ type TaskListPropsType = {
 export default function TaskList({
   tasks,
   onToggle,
+  onClickAdd,
   onDelete,
   loading = false,
 }: TaskListPropsType) {
@@ -32,7 +34,7 @@ export default function TaskList({
         title="No tasks yet"
         description="Add your first task to get started"
         action={
-          <Button>
+          <Button onClick={onClickAdd}>
             <Plus className="w-4 h-4 mr-2" />
             Add Task
           </Button>

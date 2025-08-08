@@ -122,6 +122,7 @@ function BoardsPage() {
           loading={isLoading}
           onDelete={handleBoardDelete}
           onSelect={handleBoardSelect}
+          onClickAdd={() => handleSwitchScreen(BoardScreensEnum.form)}
         />
       )}
       <ToastList toasts={toasts} />

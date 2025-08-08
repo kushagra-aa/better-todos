@@ -134,6 +134,7 @@ function TasksPage() {
           loading={isLoading}
           onDelete={handleTaskDelete}
           onToggle={handleTaskStatusChange}
+          onClickAdd={() => handleSwitchScreen(TaskScreensEnum.form)}
         />
       )}
       <ToastList toasts={toasts} />

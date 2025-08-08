@@ -8,6 +8,7 @@ import BoardCard from "./BoardCard";
 type BoardListPropsType = {
   boards: BoardResponseType[];
   onDelete: (id: number) => void;
+  onClickAdd: () => void;
   onSelect: (id: number) => void;
   loading?: boolean;
 };
@@ -16,6 +17,7 @@ export default function BoardList({
   boards,
   onDelete,
   onSelect,
+  onClickAdd,
   loading = false,
 }: BoardListPropsType) {
   if (loading) {
@@ -32,7 +34,7 @@ export default function BoardList({
         title="No boards yet"
         description="Create your first board to start organizing your tasks"
         action={
-          <Button>
+          <Button onClick={onClickAdd}>
             <Plus className="w-4 h-4 mr-2" />
             Create Board
           </Button>
