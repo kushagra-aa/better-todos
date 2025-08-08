@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
       password: hashedPassword,
       role: UserRoles.Employ,
     });
-    await createUserSession(newUser.email);
+    if (newUser) await createUserSession(newUser.email);
     return sendAPIResponse({
       data: newUser,
       message: "User Successfully Added",

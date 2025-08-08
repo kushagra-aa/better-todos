@@ -1,4 +1,4 @@
-import { PartialBy } from "./common";
+import { PartialBy } from "@/types/common";
 
 export enum UserRoles {
   SupAdmin = "SUPER_ADMIN",
